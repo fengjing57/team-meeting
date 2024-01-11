@@ -62,13 +62,13 @@ Merten等人[15]开发了一个运行时系统，用于动态优化频繁执行�
 
 图1有助于激发我们解决问题的方法。下图显示了两个程序gcc和gzip的行为，这些行为是通过从开始到结束的执行过程中各种不同的统计数据来衡量的。图中的每个点都需要执行超过1000万条指令。所示的度量是统一L2缓存未命中的数量（ul2）、执行指令所消耗的能量（energy）、指令缓存未命中的数量（il1）、数据缓存未命中的数量（dl1）、分支误预测的数量（bpred）和平均IPC。结果表明，所有的指标往往一致变化，虽然不一定在同一方向。除此之外，在很大的时间尺度上可以看到重复出现的行为模式。
 
-![phase1](figs/phase1.png)
+![phase1](/phase1.png)
 
 #### B. 按被执行的代码跟踪phase
 
 phase跟踪器架构工作在两个不同的时间尺度。它非常快速地收集配置文件信息，以跟上处理器的速度，同时将其收集的任何数据与长期收集的信息进行比较。phase profile generation architecture如图2所示，关键思想是在执行过程中捕获基本块信息，同时不依赖于任何编译器支持。较大的基本块需要更重的权重，因为它们占执行的更重要部分。为了近似收集基本块信息，phase profile generation architecture捕获分支PC和分支之间执行的指令数。架构的输入是一个信息元组：分支标识符（PC）和自上一个分支PC执行以来的指令数。这使得能够粗略地捕获每个基本块执行的沿着基本块的权重，就像在[20，21]中所做的那样，用于识别Simualtion Point。
 
-![phase2](figs/phase2.png)
+![phase2](/phase2.png)
 
 通过只检查被执行的代码对phase进行分类，使phase跟踪器独立于任何单独的架构。这使得phase跟踪器可以用作一般的分析技术，在每个phase的基础上建立架构信息的配置文件或数据库，以便稍后用于硬件或软件优化。与架构的独立性也非常重要，因为它允许在程序的行为由于基于phase的优化而发生变化时一致地跟踪phase信息。
 
@@ -82,7 +82,7 @@ phase跟踪器架构工作在两个不同的时间尺度。它非常快速地收
 
 使用的哈希函数与[21]中用于生成phase的随机投影方法基本相同。在之前的工作中，作者利用数据的随机投影来降低所采集样本的维数。随机投影采用尺寸为L×B的矩阵形式的trace数据，其中L是trace的长度，B是唯一基本块的数量，并将其乘以尺寸为B ×N的随机矩阵，其中N是远小于B的数据的期望维数。这将创建一个大小为L ×N的新矩阵，它具有与原始数据非常相似的聚类属性。随机投影方法在与聚类算法一起使用时是一种强大的技术，并且用于捕获phase行为。本文中使用的散列方案本质上是一种退化形式的随机投影，使硬件实现可行，同时仍然具有低误差。如果随机投影矩阵的所有元素都由0或1组成，并且它们被放置为使得矩阵的列不包含多于一个1，则随机投影与这种简单的散列机制相同。
 
-![phase3](figs/phase3.png)
+![phase3](/phase3.png)
 
 图3显示了应用上述技术捕获整数基准gzip的phase行为的效果。图中的x轴以十亿条指令为单位，如图1所示。y轴上的每个点表示phase跟踪器的累加器表的条目。图上的每个点对应于分析interval结束时相应累加器表项的值。暗值表示高执行频率，而亮值对应于低频率。在图3中可以清楚地看到图1中gzip的相同趋势。在这两个图中，当以粗粒度观察它们时，可以看到存在标记为A、B和C的至少三个不同的phase。该图是phase跟踪器能够仅基于执行的代码将程序的执行分解为相应phase的图形证据，并且这些phase对应于图1中跨不同程序度量看到的行为。
 
@@ -94,7 +94,7 @@ phase跟踪器架构工作在两个不同的时间尺度。它非常快速地收
 
 如果使用的桶太少，则由于散列函数而可能发生混叠效应，其中两个不同的phase将看起来具有非常相似的Footprint。因此，本文希望使用足够多的存储桶来唯一地标识phase之间代码执行的差异，同时只使用少量的区域。
 
-![phase4](figs/phase4.png)
+![phase4](/phase4.png)
 
 为了检查别名效应并确定合适的桶数，图4显示了在所有顺序执行间隔之间找到的桶权重差异之和。y轴显示每个程序的差异总和。这是通过对程序中每个interval i 和interval i-1捕获的桶之间的差求和来计算的。x轴是使用的不同桶的数量。所有结果都与使用无限数量的桶（或每个单独的基本块一个）来创建Footprint的理想情况进行了比较。例如，在gcc程序中，32个桶的差异总和是无限个桶捕获的差异总和的72%。一般来说，32个桶足以区分两个phase。
 
@@ -108,7 +108,7 @@ phase跟踪器架构工作在两个不同的时间尺度。它非常快速地收
 
 搜索Past Footprint表以找到匹配，这个查询很复杂，但是我们不一定要搜索精确的匹配。具有非常相似的Footprint的两个执行部分可以很容易地被认为是匹配的，即使它们不完全相同。为了比较两个向量，本文使用两者之间的曼哈顿距离，它是绝对差的元素和。该距离用于确定当前interval是否应被分类为与过去的间隔相同的phase ID。
 
-![phase6](figs/phase6.png)
+![phase6](/phase6.png)
 
 图6中的不同phase线显示了硬件在使用不同阈值执行phase分类时发现phase变化（一个phase和下一个phase之间的转换）的能力。例如，当使用100万的曼哈顿距离作为阈值时（在x轴（log2单位）上显示为20），硬件识别出在更复杂的离线SimPoint分析中发生的80%的phase变化。相反，20%的phase更改被错误地分类为具有与最后一个执行interval相同的phase ID。
 
@@ -120,7 +120,7 @@ phase跟踪器架构工作在两个不同的时间尺度。它非常快速地收
 
 一个phase的单个执行片段的优化调整和应用，将同样适用于隶属于该phase的其他部分。为了量化本文实现这一目标的程度，作者在每个phase测试了各种统计数据的同质性。
 
-![phase7](figs/phase7.png)
+![phase7](/phase7.png)
 
 与整个程序相比，检查每个phase的均匀性（用full表示）。对于两个程序和每个程序的前5个phase，显示了每个指标的平均值和标准差。phase的名称是它在指令方面所占的执行百分比。这些结果表明，本文的方案将程序划分为phase后，每个phase内的行为是相当一致的。
 
@@ -180,13 +180,13 @@ phase跟踪器架构工作在两个不同的时间尺度。它非常快速地收
 
 * 经验证明，GPU性能对设计决策和微调很敏感。由于GPU是面向吞吐量的处理器，因此这项工作遵循基于吞吐量的性能建模方法。以屋顶线模型为基础，提出的性能模型引入并采用了影响有效GPU计算吞吐量的最重要因素。屋顶模型的作用是区分程序执行中的两个主要性能限制因素，即计算吞吐量和内存带宽。内存流量对GPU的影响很重要，因为后者需要提供大量数据以保持其计算资源忙碌。由于缺少大型缓存层次结构，这变得更加关键。
 * 峰值性能测量：虽然理论规格为硬件可实现的性能奠定了良好的基础，但在实践中并不总可行。在某些情况下，测量的性能是理论速率的一小部分，特别是在存储器带宽测量的情况下。为了估计计算和存储器传输性能的实际峰值，这项工作开发了一组微基准内核（[mixbench, 56 Forks, 305 Stars](http://github.com/ekondis/mixbench/releases/tag/v0.02)），通过该微基准内核来评估所研究的设备的真实的性能。
-* ![QuantitativeRoofline6](C:\Users\86191\Desktop\论文master\2024-01-16\figs\QuantitativeRoofline6.png)
+* ![QuantitativeRoofline6](figs/QuantitativeRoofline6.png)
 
-  ![QuantitativeRoofline2](C:\Users\86191\Desktop\论文master\2024-01-16\figs\QuantitativeRoofline2.png)
+  ![QuantitativeRoofline2](figs/QuantitativeRoofline2.png)
 
-  ![QuantitativeRoofline3](C:\Users\86191\Desktop\论文master\2024-01-16\figs\QuantitativeRoofline3.png)
+  ![QuantitativeRoofline3](figs/QuantitativeRoofline3.png)
 
-  ![QuantitativeRoofline4](C:\Users\86191\Desktop\论文master\2024-01-16\figs\QuantitativeRoofline4.png)
+  ![QuantitativeRoofline4](figs/QuantitativeRoofline4.png)
 * 性能预测：公式推导=依据指令吞吐，数据类型等求和。
 
 
@@ -256,7 +256,7 @@ GPGPU社区提供了如何优化GPGPU代码以提高内存级并行性和线程�
 
 ##### A. CWP大于MWP
 
-![AnalyticalMWPCWP5](C:\Users\86191\Desktop\论文master\2024-01-16\figs\AnalyticalMWPCWP5.png)
+![AnalyticalMWPCWP5](figs/AnalyticalMWPCWP5.png)
 
 图5a中的Case 1，系统可以同时为两个内存warp提供服务。一个计算周期大约是一个内存等待偏差周期的三分之一，因此处理器在一个内存等待warp周期内可以完成三个warp的计算周期。(即，在这种情况下，MWP为2，CWP为4。)
 
@@ -264,19 +264,19 @@ GPGPU社区提供了如何优化GPGPU代码以提高内存级并行性和线程�
 
 ##### B. MWP大于CWP
 
-![AnalyticalMWPCWP6](C:\Users\86191\Desktop\论文master\2024-01-16\figs\AnalyticalMWPCWP6.png)
+![AnalyticalMWPCWP6](figs/AnalyticalMWPCWP6.png)
 
 图6中的Case 3，系统可以同时为8个内存warp提供服务。同样，在这种情况下，CWP仍然是4。图6a中的Case 3，除了最后一个warp之外，所有的存储等待时间都与其他warp重叠。总执行周期是8个计算周期和仅一个内存等待周期的总和。
 
 即使不是所有的线程束都是独立的，当CWP高于MWP时，许多存储器等待时段是重叠的。图6b中的情况4给出了示例。每个线程束有两个计算周期和两个内存等待周期。由于计算时间占主导地位，因此总执行周期再次是8个计算周期和仅1个存储器等待周期的总和。
 
-![AnalyticalMWPCWP7](C:\Users\86191\Desktop\论文master\2024-01-16\figs\AnalyticalMWPCWP7.png)
+![AnalyticalMWPCWP7](figs/AnalyticalMWPCWP7.png)
 
 图7中的Case 5显示了一个极端的案例。在这种情况下，在完成一个存储器等待时段的同时，甚至不能完成一个计算时段。因此，CWP小于2。注意，CWP总是大于1。即使MWP为8，应用程序也无法利用任何内存warp并行性。因此，总的执行周期是8个计算周期加上一个存储器等待周期。注意，即使是这种极端情况，Case 5的总执行周期也与Case 4相同。当计算周期比存储周期长时，发生Case 5的情况。
 
 ##### C. 没有足够多的warp执行
 
-![AnalyticalMWPCWP8](C:\Users\86191\Desktop\论文master\2024-01-16\figs\AnalyticalMWPCWP8.png)
+![AnalyticalMWPCWP8](figs/AnalyticalMWPCWP8.png)
 
 如果应用程序没有足够数量的warp，系统就不能利用所有可用的warp并行性。MWP和CWP不能大于一个SM上的活动warp数。对于图8a中的Case 6和图8b中的Case 7这两种情况，MWP和CWP都等于N，即每个SM的活动warp数。
 
@@ -350,7 +350,7 @@ GPGPU社区提供了如何优化GPGPU代码以提高内存级并行性和线程�
 
 Sieve通过只使用一个独立于微架构的执行特性（即指令计数）来描述和分类内核调用，从而克服了上面的限制。由于每个聚类内的可变性较低，Sieve的准确性明显高于PKS。因为Sieve只需要收集一个执行特征，所以分析也很快。此外，通过Sieve获得的代表性内核调用的模拟实现的加速比仍然很高，与PKS相当。
 
-<img src="C:\Users\86191\Desktop\论文master\2024-01-16\figs\Sieve1.png" alt="Sieve1"  />
+<img src="figs/Sieve1.png" alt="Sieve1"  />
 
 Sieve的第一步是profile感兴趣的工作负载，profile信息用作分层的输入，分层选择并输出最具代表性的内核调用以及它们各自的权重。然后，这些代表性的内核调用用于详细的模拟或工作负载分析。
 
