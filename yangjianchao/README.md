@@ -29,6 +29,13 @@
 * Sieve: Stratified GPU-Compute Workload Sampling, ISPASS 2023.
 * MGPUSim: Enabling Multi-GPU Performance Modeling and Optimization, ISCA 2019.
 
+##### 2024年1月23日
+
+* An Instruction Rooﬂine Model for GPUs, Performance Modeling, Benchmarking and Simulation of High Performance Computer Systems (PMBS) 2019.
+* A Performance Analysis Framework for Identifying Potential Benefits in GPGPU Applications, PPoPP 2012.
+* TBPoint: Reducing Simulation Time for Large-Scale GPGPU Kernels, IPDPS 2014.
+* An Adaptive Performance Modeling Tool for GPU Architectures, PPoPP 2010.
+* Lost in Abstraction: Pitfalls of Analyzing GPUs at the Intermediate Language Level, TACO 2020.
 
 
 ### B. GPU访存优化相关：
