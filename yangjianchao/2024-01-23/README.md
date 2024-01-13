@@ -196,7 +196,8 @@ $B_{itilp}$ 、 $B_{fp}$ 和 $B_{serial}$ 与计算成本相关，而 $B_{memlp}
 
 首先，使用cuobjdump [13]反汇编目标CUBIN文件。然后，我们构建一个控制流图（CFG）和def-use链与反汇编指令。在加载请求（def）和发起存储器请求（use）的第一个指令之间的存储器请求的数量是本地MLP。基本块中的局部MLP的平均值是基本块MLP。对于ILP，将可以在基本块内调度的指令分组在一起。若一条指令对任何其他指令具有真正的依赖性，它们不能在同一周期发射。然后，基本块ILP是基本块中的指令数除以块中的组数。
 
-其次，将该静态ILP/MLP信息与来自IA的动态信息组合。基于基本块执行频率对ILP/MLP给予给予高权重。下面的公式显示了精确的公式，在这个公式中，基本块（BB）K的ILP/MLP被表示为 $ILP（MLP）_K$ 。$ILP（MLP）_{AVG}$ 与等式（4）和（14）中的ILP/MLP相同。
+其次，将该静态ILP/MLP信息与来自IA的动态信息组合。基于基本块执行频率对ILP/MLP给予给予高权重。下面的公式显示了精确的公式，在这个公式中，基本块（BB）K的ILP/MLP被表示为 $ILP(MLP)_K$ 。 $ILP(MLP)_{AVG}$ 与等式（4）和（14）中的ILP/MLP相同。
+
 $$
 ILP(MLP)_{AVG} = \sum^{\#BBs}_{K=1} \frac{ILP(MLP)_K \times \#accesses\_to\_BB_K}{\#basic\_blocks}
 $$
