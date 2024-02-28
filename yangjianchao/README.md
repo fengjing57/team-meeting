@@ -38,11 +38,20 @@
 * Lost in Abstraction: Pitfalls of Analyzing GPUs at the Intermediate Language Level, TACO 2020.
 
 ##### 2024年1月30日
+
 * A Simple Model for Portable and Fast Prediction of Execution Time and Power Consumption of GPU Kernels, TACO 2020.
 * Featherlight Reuse-distance Measurement, HPCA 2019.
 * Compiler-Driven Simulation of Reconfigurable Hardware Accelerators, HPCA 2022.
 * DOSA: Differentiable Model-Based One-Loop Search for DNN Accelerators, MICRO 2023.
 * GCoM: A Detailed GPU Core Model for Accurate Analytical Modeling of Modern GPUs, ISCA 2022.
+
+##### 2024年3月5日
+
+* Directed Statistical Warming through Time Traveling, MICRO 2019.
+* Emerald: Graphics Modeling for SoC Systems, ISCA 2019.
+* ATTILA: A Cycle-Level Execution-Driven Simulator for Modern GPU Architectures, ISPASS 2006.
+* Fast Computational GPU Design with GT-Pin, IISWC 2015.
+* FireSim: FPGA-Accelerated Cycle-Exact Scale-Out System Simulation in the Public Cloud, ISCA 2018.
 
 ### B. GPU访存优化相关：
 
