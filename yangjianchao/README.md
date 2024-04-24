@@ -60,3 +60,12 @@
 * Selective Replication in Memory-Side GPU Caches, MICRO 2020.
 * Morpheus: Extending the Last Level Cache Capacity in GPU Systems Using Idle GPU Core Resources, MICRO 2020.
 * RnR: A Software-Assisted Record-and-Replay Hardware Prefetcher, MICRO 2020.
+
+##### 2024年4月24日：
+
+* Analyzing and Leveraging Decoupled L1 Caches in GPUs, HPCA 2021.
+* COLAB: Collaborative and Efficient Processing of Replicated Cache Requests in GPU, ASPDAC 2023.
+* BOW: Breathing Operand Windows to Exploit Bypassing in GPUs, MICRO 2020.
+* Mitigating GPU Core Partitioning Performance, HPCA 2023.
+* Collaborative Coalescing of Redundant Memory Access for GPU System, ASP-DAC 2024.
+
