@@ -69,3 +69,11 @@
 * Mitigating GPU Core Partitioning Performance, HPCA 2023.
 * Collaborative Coalescing of Redundant Memory Access for GPU System, ASP-DAC 2024.
 
+##### 2024年4月25日：
+
+* CMRC: Comprehensive Microarchitectural Register Coalescing for GPGPUs, DATE 2021.
+* Reconciling QoS and Concurrency in NVIDIA GPUs via Warp-Level Scheduling, DATE 2021.
+* WER: Maximizing Parallelism of Irregular Graph Applications Through GPU Warp EqualizeR, ASPDAC 2024.
+* TURBULENCE: Complexity-effective Out-of-order Execution on GPU with Distance-based ISA, DATE 2023.
+* An Adaptive Framework for Oversubscription Management in CPU-GPU Unified Memory, DATE 2021.
+
